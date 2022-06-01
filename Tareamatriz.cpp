@@ -11,7 +11,7 @@ int main(){
 		cin>>numeros[i][j];
 	}
 }
-cout<<"Matriz Original\n";
+cout<<"Matriz \n";
 for(int i=0;i<4;i++){
 	for (int j=0;j<4;j++){
 		cout<<numeros[i][j]<<" ";
