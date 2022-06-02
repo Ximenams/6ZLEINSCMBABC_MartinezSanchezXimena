@@ -36,17 +36,17 @@ struct dato{//lista
 
 //meter los metodos de accesos a la lista
 
+int da;
 int buscar(int d);
 void insertar(int dat);
 void mostrar(void);
 void borrar(void);
 void menu (void);
+void guardar(void);
+void cargar(void);
 
-//void guardar(void);
-//void cargar(void);
-
-int main(){
-	menu(menu);
+main(){
+	menu();
 }
 
 //metodo del menu
@@ -55,15 +55,15 @@ void menu(void){
 	int opc, da;
 	do{
 		//imprimir el menu
-		cout<<"Ejemplo para una lista completa que "
-		cout<<"\n 1-.Buscar Datos: ";
-		cout<<"\n 2-.Insertar Datos: ";
-		cout<<"\n 3-.Mostrar Dato: ";
-		cout<<"\n 4-.Borrar Datos: ";
-		cout<<"\n 5-.Guardar Datos en Archivo: ";
-		cout<<"\n 6-.Cargar Datos en Archivo: ";
-		cout<<"\n 7-.Salir: ";
-		cout<<"\n Seleccione la opcion deseada: ";
+		cout<<"Ejemplo para una lista completa que";
+		cout<<"\n 1-.Buscar Dato ";
+		cout<<"\n 2-.Insertar Datos";
+	 	cout<<"\n 3-.Mostrar el Dato ";
+	 	cout<<"\n 4-.Borrar Datos ";
+	 	cout<<"\n 5-.Guardar Datos en Archivo";
+		cout<<"\n 6-.Cargar Datos en Archivo";
+		cout<<"\n 7-.Salir ";
+
 		cin>>opc;
 		//menu
 		switch(opc){
@@ -93,10 +93,10 @@ void menu(void){
 				borrar();
 				break;
 			case 5:
-				//guardar();
+				guardar();
 				break;
 			case 6:
-				//cargar();
+				cargar();
 				break;
 			case 7:
 				cout<<"\n\n Ayos uwu :3";
@@ -109,7 +109,7 @@ void menu(void){
 					delete(a);//metodo de la lista
 				}
 				exit(0);//se cierra
-			default;
+			default:
 				cout<<"Aprenda a leer ¬¬";
 				getch();
 				
@@ -129,7 +129,7 @@ void mostrar(void){
 	}
 	//si hay datos
 	p = i;
-	cout<<"\n\n";
+	cout<<endl<<endl;
 	while(p){
 		//como si existe la lista la recorremos
 		cout<<cont++<<"\nValor = "<<p->i<<endl;
@@ -138,3 +138,141 @@ void mostrar(void){
 	cout<<"\n Fin de la lista";
 	getch();
 }
+
+
+int buscar(int d)
+ {
+ if (!i)
+ {
+ cout<<"No hay datos en la lista!!!";
+ getch();
+ return(0);
+ }
+ p=i;
+ a=NULL;
+ while(p->s && p->i<d)
+ {
+ a=p;
+ p=p->s;
+ }
+ return(p->i==d?1:0);
+ }
+ 
+void insertar(int dat)
+ {
+ if(!i)
+ {
+ i=new(dato);
+ i->s=NULL;
+ i->i=dat;
+ return;
+ }
+ if(buscar(dat))
+ {
+ cout<<"\n\nDato existente";
+ getch();
+ return;
+ }
+ e=new(dato);
+ e->i=dat;
+ if(p==i && p->s)
+ {
+ e->s=p;
+ i=e;
+ return;
+ }
+ if(p==i && !p->s)
+ {
+ if(p->i < e->i)
+ {
+ p->s=e;
+ e->s=NULL;
+ }
+ else
+ {
+ e->s=p;
+ i=e;
+ }
+ return;
+ }
+ if(p->s)
+ {
+ a->s=e;
+ e->s=p;
+ return;
+ }
+ if(e->i > p->i)
+ {
+ e->s=NULL;
+ p->s=e;
+ }
+ else
+ {
+ a->s=e;
+ e->s=p;
+ }
+ }
+ 
+void borrar(void)
+ {
+ cout<<"\n\nIngrese dato a eliminar: ";
+ cin>>da;
+ if(buscar(da))
+ {
+ if(a)
+ a->s=p->s;
+ else
+ i=p->s;
+ delete(p);
+ cout<<"\n\nDato eliminado";
+ }
+ else
+ cout<<"\n\nDato no se encuentra";
+ getch();
+ }
+ 
+void guardar(void)
+ {
+ FILE *arch;
+ arch=fopen("DATOS-A.TXT","w");
+ if(!i)
+ {
+ cout<<"\n\nNO HAY LISTA PARA GUARDAR";
+ getch();
+ return;
+ }
+ p=i;
+ while(p)
+ {
+ fprintf(arch,"%i\n",p->i);
+ p=p->s;
+ }
+ cout<<"\n\nArchivo Guardado";
+ fclose(arch);
+ getch();
+ }
+ 
+void cargar(void)
+ {
+ int c,x;
+ FILE *arch;
+ arch=fopen("DATOS-A.TXT","r");
+ if(!arch)
+ {
+ cout<<"\n\nNO EXISTE EL ARCHIVO";
+ getch();
+ return;
+ }
+ 
+do {
+ c=fscanf(arch,"%i\n",&x);
+ if(c!=EOF)
+ {
+ insertar(x);
+ }
+ }
+ while (c!=EOF);
+ cout<<"\n\nArchivo Cargado";
+ fclose(arch);
+ getch();
+ }
