@@ -1,33 +1,34 @@
-#include<iostream>
-#include<conio.h>
-using namespace std;
-int main(){
-	int numeros[3][3];
-	
-	for(int i=0;i<4;i++){
-		for(int j=0;j<4;j++){
-		
-		cout<<"Digite un numero ["<<i<<"]["<<j<<"]: ";
-		cin>>numeros[i][j];
-	}
-}
-cout<<"Matriz \n";
-for(int i=0;i<4;i++){
-	for (int j=0;j<4;j++){
-		cout<<numeros[i][j]<<" ";
-	}
-	cout<<"\n";
-}
-
-
-cout<<"\nMariz Transpuesta\n";
-for(int i=0;i<4;i++){
-	for(int j=0;j<4;j++){
-		cout<<numeros[j][i]<<" ";
-	}
-	cout<<"\n";
-}
-	
-	getch();
-	return 0;
+#include<stdio.h>
+#define MAX 10
+int main(int argc, char** args)
+{
+int matriz[MAX][MAX], col, reng, i=0, j=0;
+  printf("Cuantas columnas quieres ");
+  scanf("%d", &col);
+  printf("Cuantos renglones quieres ");
+  scanf("%d", &reng);
+  for(i = 0;i < reng;i++)
+  {
+      for(j = 0;j < col;j++){
+          printf("ESCRIBE LOS VALORES [%d][%d]==>\t", i+1, j+1);
+              scanf("%d", &matriz[i][j]);
+      }
+  }
+  printf("\n\n\t\tMatriz original");
+  printf("\n\n");
+  for(i = 0;i < reng;i++){
+      printf("\n\t\t");
+      for(j = 0;j < col;j++){
+          printf("  %6d  ", matriz[i][j]);
+          }
+  }
+  printf("\n\n\t\tMatriz transpuesta");
+  printf("\n\n");
+  for(i = 0;i < col;i++){
+      printf("\n\t\t");
+      for(j = 0;j < reng;j++){
+          printf("  %6d  ", matriz[j][i]);
+          }
+  }
+  printf("\n\n\n");
 }
