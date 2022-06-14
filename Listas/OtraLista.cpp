@@ -218,18 +218,22 @@ void insertar(int dat){
 }
  
 void borrar(void){
-	cout<<"\n\nIngrese dato a eliminar: ";
+	cout<<"\nIngrese dato que deseas eliminar: ";
 	cin>>da;
+	//debo de buscar el dato
 	if(buscar(da)){
-		if(a)
+		if(a){
+		
 		a->s=p->s;
-		else
+		}else{
+		
 		i=p->s;
+		}
 		delete(p);
-		cout<<"\nDato eliminado";
+		cout<<"\nDato eliminado\n";
 	}
 	else
-		cout<<"\nDato no se encuentra";
+		cout<<"\nDato no se encuentra solo juguito T_T";
 		getch();
 }
  

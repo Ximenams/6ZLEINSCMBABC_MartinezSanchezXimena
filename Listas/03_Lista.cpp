@@ -97,8 +97,8 @@ void menu(){
 	int opcion, dato;
 	
 	do{
-		cout<<"\t. :MENU:.\n";
-		cout<<"1.- Ingresa el elemento ala lista\n";
+		cout<<"\n MENU:\n";
+		cout<<"1.- Ingresa el elemento \n";
 		cout<<"2.- Mostrar los elementos de la lista\n";
 		cout<<"3.- Buscar un elemento en lista\n";
 		cout<<"4.- Eliminar un nodo de la lista\n";
@@ -107,7 +107,7 @@ void menu(){
 		cin>>opcion;
 		
 		switch(opcion){
-			case 1: cout<<"\nDigite un numero: ";
+			case 1: cout<<"\nDigite un elemento: ";
                     cin>>dato;
                      insertarLista(lista,dato);
                      cout<<"\n";
@@ -117,13 +117,13 @@ void menu(){
 			       cout<<"\n";
 			       system("pause");
 			       break;
-			 case 3: cout<<"\nDigite un numero a buscar: ";
+			 case 3: cout<<"\nDigite un elemento a buscar: ";
 			        cin>>dato;      
 			        buscarLista(lista,dato);
 			        cout<<"\n";
 			        system("pause");
 			        break;
-			 case 4: cout<<"\nDigite el elemnto que desea eliminar: ";
+			 case 4: cout<<"\nDigite el elemento que desea eliminar: ";
 			         cin>>dato;
 			         eliminarNodo(lista,dato);
 			         cout<<"\n";
@@ -164,7 +164,7 @@ void buscarLista(Nodo *lista,int n){
 }
 
 void eliminarNodo(Nodo *&lista,int n){
-	//PReguntar si la lista no esta vacia
+	//Preguntar si la lista no esta vacia
 	if(lista != NULL){
 		Nodo *aux_borrar;
 		Nodo *anterior = NULL;
