@@ -1,154 +1,132 @@
-#include <iostream>
+#include<iostream>
+
 using namespace std;
- 
- 
 
-struct nodo
-{
-    int nro;
-    struct nodo *sgte;
+//estructura
+struct nodo{
+	string color; 
+	struct nodo *siguiente;
 };
- 
- 
 
-struct cola
-{
-    nodo *delante;
-    nodo *atras  ;
+//estructura cola
+struct cola{
+	nodo *ultimo;
+	nodo *primero;
 };
- 
- 
 
-void encolar( struct cola &q, int valor )
-{
-     struct nodo *aux = new(struct nodo);
-     
-     aux->nro = valor;
-     aux->sgte = NULL;
-     
-     if( q.delante == NULL)
-         q.delante = aux;   
-     else
-         (q.atras)->sgte = aux;
-         
-     q.atras = aux;        
-     
+//encolar
+void encolar(struct cola &q, string c){
+	//lo que hay adentro de la cola
+	struct nodo *aux = new(struct nodo);
+	
+	aux ->color = c;
+	aux ->siguiente = NULL;
+	
+	if(q.ultimo == NULL){
+		q.ultimo = aux; //encolar el primer elemento
+	}else{
+		(q.primero)->siguiente = aux;
+	}
+	//el puntero siempre apunta al ultimo
+	q.primero = aux;
 }
- 
 
-int desencolar( struct cola &q )
-{
-     int num ;
-     struct nodo *aux ;
-     
-     aux = q.delante;      
-     num = aux->nro;
-     q.delante = (q.delante)->sgte;
-     delete(aux);         
-     
-     return num;
+//desencolar
+string desencolar(struct cola &q){
+	string col;
+	struct nodo *aux;
+	
+	//aux apunte al inicio de la cola
+	aux = q.ultimo;
+	col = aux->color;
+	q.ultimo = (q.ultimo)->siguiente;
+	
+	//dale delete a aux
+	delete(aux);
+	
+	return col;
 }
- 
 
-void muestraCola( struct cola q )
-{
-     struct nodo *aux;
-     
-     aux = q.delante;
-         
-     while( aux != NULL )
-     {
-            cout<<"   "<< aux->nro ;
-            aux = aux->sgte;
-     }    
+//mostrar colita
+void muestracola(struct cola q){
+	//nodo auxiliar
+	struct nodo *aux;
+	//siempre el nodo hasta delante
+	aux = q.ultimo;
+	//cola vacia
+	while(aux!=NULL){
+		cout<<aux->color<<" --> ";
+		aux = aux->siguiente;
+	}
 }
- 
 
-void vaciaCola( struct cola &q)
-{
-     struct nodo *aux;
-     
-     while( q.delante != NULL)
-     {
-            aux = q.delante;
-            q.delante = aux->sgte;
-            delete(aux);
-     }
-     q.delante = NULL;
-     q.atras   = NULL;
-     
+//vaciar la cola, eliminar
+void vaciarcola(struct cola &q){
+	//auxiliar para eliminar cada elemento
+	struct nodo *aux;
+	//si esta vacia
+	while(q.ultimo != NULL){
+		aux = q.ultimo;
+		q.ultimo = aux->siguiente;
+		delete(aux);
+	}
+	q.ultimo = NULL;
+	q.primero = NULL;
 }
- 
 
-void menu()
-{
-    cout<<"\n COLORES TAREA WIII\n\n";
-    cout<<" 1. ENCOLAR                               "<<endl;
-    cout<<" 2. DESENCOLAR                            "<<endl;
-    cout<<" 3. MOSTRAR COLA                          "<<endl;
-    cout<<" 4. VACIAR COLA                           "<<endl;
-    cout<<" 5. SALIR                                 "<<endl;
- 
-    cout<<"\n INGRESE OPCION: ";
+void menu(){
+	cout<<"\n Colores\n";
+	cout<<"\n 1. Encolar\n";
+	cout<<"\n 2. Desencolar\n";
+	cout<<"\n 3. Mostrar\n";
+	cout<<"\n 4. Vaciar\n";
+	cout<<"\n 5. Salir\n";
 }
- 
 
-int main()
-{
-    struct cola q;
-   
-    q.delante = NULL;
-    q.atras   = NULL;
-   
-   
-    int dato;  
-    int op;    
-    int x ;   
-   
-    system("color 0b");
- 
-    do
-    {
-        menu();  cin>> op;
- 
-        switch(op)
-        {
-            case 1:
- 
-                 cout<< "\n Ingresa color: "; cin>> dato;
-                 encolar( q, dato );
-                 cout<<"\n\nColor " << dato;
-            break;
- 
- 
-            case 2:
- 
-                 x = desencolar( q );
-                 cout<<"\n\n color"<< x <<" desencolado...\n\n";
-            break;
-                 
- 
-            case 3:
- 
-                 cout << "\n\n MOSTRANDO COLA\n\n";
-                 if(q.delante!=NULL) muestraCola( q );
-                 else   cout<<"\n\n\tCola vacia...!"<<endl;
-            break;
- 
- 
-            case 4:
- 
-                 vaciaCola( q );
-                 cout<<"\n\n Hecho...\n\n";
-            break;
-           
-         }
- 
-        cout<<endl<<endl;
-        system("pause");  system("cls");
- 
-    }while(op!=5);
-   
-   
-    return 0;
+int main(){
+	//primero declaramos la cola
+	struct cola q;
+	
+	//defino la cola con sus apuntadores
+	q.ultimo = NULL;
+	q.primero = NULL;
+	
+	//datos
+	string dato;
+	int op;
+	string x; //funcion de pop a la cola
+	
+	do{
+		menu();
+		cout<<"\n"; cin>>op;
+		
+		switch(op){
+			case 1:
+				cout<<"\n\n Ingresa color : ";
+				cin>>dato;
+				encolar(q,dato);
+				cout<<"\n\n Color: "<<dato<<" encolado...\n";
+			break;
+			
+			case 2:
+				x = desencolar(q);
+				cout<<"\n\n Color: "<<x<<" desencolado...\n";
+			break;
+			
+			case 3:
+				cout<<"\n\n Mostrar Cola: \n";
+				//saber que no este null
+				if(q.ultimo != NULL) muestracola(q);
+				else cout<<"\n\t Cola Vacia...\n";
+			break;
+			
+			case 4:
+				vaciarcola(q);
+				cout<<"\n\t Colita se Vacio...\n";
+			break;
+			
+		}
+	}while(op != 5);
+	
+	return 0;
 }
