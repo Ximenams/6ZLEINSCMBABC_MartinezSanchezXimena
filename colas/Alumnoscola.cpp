@@ -1,95 +1,136 @@
-#include <iostream>
-#include <conio.h>
-#include <stdlib.h>//Libreria para poder usar new y delete 
+#include<stdio.h>
+#include<stdlib.h>
+//Libreria para poder usar new y delete 
+#include<string.h>
+#include<iostream>
+#include<iostream>
+//Esta libreria es para la entrada y salida de un archivo
+#include<fstream>
+//Biblioteca de window
 
 using namespace std;
 
-struct ICO{
-	char clave[20];
-	char nombre[30];
-	float calificacion;
-};
 
-struct Nodo{
-	ICO alumnos;
-	Nodo *siguiente;
-};
-//Insertar elementos a l cola 
-void menu();
-void agregarDatos(ICO &);
-void insertarDatos(Nodo *&,Nodo *&,ICO);
-bool c_vacia(Nodo *);
+
+//Imprimir el menu 
+int menu(){
+	int x;
+	system("cls");
+	    cout<<"1.Agregar datos del alumno"<<endl
+	    <<"2.Buscar datos del alumno"<<endl
+	    <<"3.Mostrar datos de los alumnos"<<endl
+	    <<"4.Borrar datos de los alumnos"<<endl
+	    <<"5.Cargar datos de los alumnos"<<endl
+	    <<"6.Guardar datos de los alumnos"<<endl
+	    <<"7.Salir del programa"<<endl
+	    <<"Ingresar el numero de opcion que desea: ";
+	    	cin>>x;
+	        return x; 
+}
+//La funcion que tiene que hacer agregar
+void agregar(ofstream &es){
+	//"cls" funciona para que limpie la consola
+	system("cls");
+	string nombre;
+	string grupo;
+	string materias;
+	string calificaciones;
+	//Esta linea sirve para guardar los usuarios
+	es.open("Registros.txt", ios::out | ios::app);
+	cout<<"Nombre: ";
+	cin>>nombre;
+	cout<<"Grupo: ";
+	cin>>grupo;
+	cout<<"Materias: ";
+	cin>>materias;
+	cout<<"Calificaciones: ";
+	cin>>calificaciones;
+	es<<nombre<<" "<<grupo<<" "<<materias<<" "<<calificaciones<<"\n";
+	es.close();
+}
+//Buscar en el registro
+void buscar(ifstream &lec){
+	system("cls");
+	lec.open("Registros.txt", ios::in);
+	bool encontrado = false;
+	string nombre, grado, materias, calificaciones, nombreaux;
+	cout<<"Digite el nombre que desea buscar: ";
+	cin>>nombreaux;
+	lec>>nombre;
+	//Este while esta para la busqueda siempre y cuando "encontrado" este en un valor de false
+	while(!lec.eof() && !encontrado){
+		lec>>grado;
+		lec>>materias;
+		lec>>calificaciones;
+		//este if es para comparar e imprimirlo en la pantalla 
+		if(nombre == nombreaux){
+			cout<<"Nombre: "<<nombre<<endl;
+			cout<<"Grado: "<<grado<<endl;
+			cout<<"Materias: "<<materias<<endl;
+			cout<<"Calificaciones: "<<calificaciones<<endl;
+			cout<<"-------------------"<<endl;
+			//cuando nombre y nombreaux sean el mismo se mandara un true a "encontrado"
+			encontrado = true;
+		}
+		lec>>nombre;
+	}
+	lec.close();
+	
+	//Si no existe el dato imprime este mensaje
+	if(!encontrado)
+		cout<<"Dato no encontrado"<<endl;
+		system("pause");
+}
+
+//Ver los registros
+void verRegistro(ifstream &lec){
+	system("cls");
+	string nombre;
+	string grado;
+	string materias;
+	string calificaciones;
+	//ESta linea es para entrar al archivo 
+	lec.open("Registros.txt", ios::in);
+	//Este es un apuntador para busqueda
+	lec>>nombre;
+	//Este while es para ejecutar el ciclo simpre y cuando no llegue al final del archivo
+	while(!lec.eof()){
+		//EStos son apuntadores para la busqueda
+		lec>>grado;
+		lec>>materias;
+		lec>>calificaciones;
+		cout<<"Nombre: "<<nombre<<endl;
+		cout<<"Grado: "<<grado<<endl;
+		cout<<"Materias: "<<materias<<endl;
+		cout<<"Calificaciones: "<<calificaciones<<endl;
+		cout<<"-------------------"<<endl;
+		lec>>nombre;
+	}
+	lec.close();
+	system("pause");
+}
 
 int main(){
-	ICO alumnos;
-	Nodo *frente=NULL;
-	Nodo *fin=NULL;
-	char opcion;
-	
+	ofstream esc;
+	ifstream lec;
+	int op;
 	do{
-		menu();
-		cin>>opcion;
-		fflush(stdin);
-		Nodo *aux=frente;
-		switch(opcion){
-			case '1':
-				agregarDatos(alumnos);
-				insertarDatos(frente,fin,alumnos);
+		//esta funcion es de windows
+		system("cls");
+		op = menu();
+		switch(op){
+			case 1:
+				agregar(esc);
 				break;
-			case '2':
-				cout<<"CLAVE"<<"\tNOMBRE\t\t\t"<<"CALIFICACION "<<endl;
-				while(aux !=NULL){
-					cout<<aux->alumnos.clave<<"\t"<<aux->alumnos.nombre<<"\t\t\t"<<aux->alumnos.calificacion<<endl;
-					aux=aux->siguiente;
-				}
+				
+			case 2:
+				buscar(lec);
 				break;
-			case '3':
-				cout<<"\nSalio del programa..."<<endl;
-				break;
-			default:
-				cout<<"\nOpcion invalida "<<endl;
+				
+			case 3:
+				verRegistro(lec);
 				break;
 		}
-		cout<<"Presionar una tecla para continuar"<<endl;
-		getch();
-		system("cls");
-	}while(opcion !='3');
+	}while(op != 7);
 	return 0;
-}
-
-void menu(){
-	cout<<"MENU"<<endl
-	    <<"1.Agregar datos del alumno"<<endl
-	    <<"2.Mostrar datos de los alumnos"<<endl
-	    <<"3.Salir del programa"<<endl
-	    <<"Ingresar el numero de opcion que desea: ";
-}
-
-void agregarDatos(ICO &alumnos){
-	cout<<"Ingresar clave del alumno: "; cin.getline(alumnos.clave,20,'\n');
-	cout<<"Ingresar nombre del alumno: "; cin.getline(alumnos.nombre,30,'\n');
-	cout<<"Ingresar calificacion: "; cin>>alumnos.calificacion;
-}
-
-//Insertando elementos a ala cola
-void insertarDatos(Nodo *&frente, Nodo *&fin,ICO alumnos){
-	Nodo *n_nodo=new Nodo();//declarando un nuevo nodo 
-	
-	n_nodo->alumnos=alumnos;//asignando al nuevo nodo el dato a insertar en la cola
-	//siguiente apunta directamente hacia null
-	n_nodo->siguiente=NULL;
-	
-	if(c_vacia(frente)){
-		frente = n_nodo;//si la cola esta vacia frente = nuevo nodo
-	}
-	else{
-		fin->siguiente=n_nodo;//si la cola no esta vacia 
-	}
-	
-	fin=n_nodo;
-}
-//determina si la cola esta vacia 
-bool c_vacia(Nodo *frente){
-	//si frente igual a null cola vacia retornar true
-	return (frente==NULL)? true : false;
 }
