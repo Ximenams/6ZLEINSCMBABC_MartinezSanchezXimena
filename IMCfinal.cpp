@@ -70,7 +70,15 @@ void login(){
 	
 	do{
 		system("cls");
+		cout<<"\n\t Creado por:";
+		cout<<"\n\t Ximena Martinez Sanchez";
+		cout<<"\n\t Carlos Eduardo Ramirez Rios";
+		cout<<"\n\t Sara Ixshel Cortes Hernandez";
+		
+		cout<<"\n\n";
 		cout<<"\n\t   Bienvenido a la calculadora";
+		
+		
 		cout<<"\n\t Usuario: ";
 		getline(cin, usuario);
 		cout<<"\t Password: ";
